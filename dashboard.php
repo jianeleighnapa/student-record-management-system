@@ -39,77 +39,70 @@
     <body class="bg-light">
 
     <div class="container mt-5">
-   <!-- TOP BUTTON AREA -->
-<div class="mb-3 d-flex gap-2">
+  
+            </li> <!-- TOP AREA -->
+<div class="d-flex justify-content-between align-items-center mb-3">
 
-    <!-- ADD STUDENT -->
-    <a href="create.php" class="btn btn-success">
-        <i class="fa-solid fa-user-plus"></i> Add Student
-    </a>
+    <!-- LEFT SIDE BUTTONS -->
+    <div class="d-flex gap-2">
 
-    <!-- PROFILE DROPDOWN -->
-    <div class="dropdown">
+    
+        <a href="create.php" class="btn btn-success">
+            <i class="fa-solid fa-user-plus"></i> Add Student
+        </a>
 
-        <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
-            <i class="fa-solid fa-user"></i> Profile
-        </button>
+        <!-- PROFILE DROPDOWN -->
+        <div class="dropdown">
 
-        <ul class="dropdown-menu">
-
-            <li>
-                <a class="dropdown-item" href="profile.php">
-                    <i class="fa-solid fa-user"></i> View Profile
-                </a>
-            </li>
-
-            <li>
-                <a class="dropdown-item" href="settings.php">
-                    <i class="fa-solid fa-gear"></i> Settings
-                </a>
-            </li>
-
-            <li><hr class="dropdown-divider"></li>
-
-            <li>
-                <a class="dropdown-item text-danger" href="log_out.php">
-                    <i class="fa-solid fa-right-from-bracket"></i> Logout
-                </a>
-            </li>
-
-        </ul>
-    </div>
-
-</div>
-
-    </div>
-
-    </div>
-        
-
-
-    </div>
-
-    <!-- SEARCH (RIGHT SIDE) -->
-    <div class="d-flex justify-content-end mb-3">
-
-        <form method="GET" class="input-group w-50">
-
-            <input type="text" name="search" class="form-control"
-                placeholder="Search student (name, email, course)"
-                value="<?= htmlspecialchars($search) ?>">
-
-            <button type="submit" class="btn btn-primary px-4">
-                <i class="fa-solid fa-magnifying-glass"></i> Search
+            <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                <i class="fa-solid fa-user"></i> Profile
             </button>
 
-            <a href="dashboard.php" class="btn btn-secondary px-4">
-                <i class="fa-solid fa-rotate-left"></i> Reset
-            </a>
+            <ul class="dropdown-menu">
 
-        </form>
+                <li>
+                    <a class="dropdown-item" href="profile.php">
+                        <i class="fa-solid fa-user"></i> View Profile
+                    </a>
+                </li>
+
+                <li>
+                    <a class="dropdown-item" href="settings.php">
+                        <i class="fa-solid fa-gear"></i> Settings
+                    </a>
+                </li>
+
+                <li><hr class="dropdown-divider"></li>
+
+                <li>
+                    <a class="dropdown-item text-danger" href="log_out.php">
+                        <i class="fa-solid fa-right-from-bracket"></i> Logout
+                    </a>
+                </li>
+
+            </ul>
+        </div>
 
     </div>
 
+    <!-- RIGHT SIDE SEARCH -->
+    <form method="GET" class="input-group w-50">
+
+        <input type="text" name="search" class="form-control"
+            placeholder="Search student (name, email, course)"
+            value="<?= htmlspecialchars($search) ?>">
+
+        <button type="submit" class="btn btn-primary px-4">
+            <i class="fa-solid fa-magnifying-glass"></i> Search
+        </button>
+
+        <a href="dashboard.php" class="btn btn-secondary px-4">
+            <i class="fa-solid fa-rotate-left"></i> Reset
+        </a>
+
+    </form>
+
+</div>
         <!-- TABLE -->
         <div class="card shadow">
             <div class="card-body">
