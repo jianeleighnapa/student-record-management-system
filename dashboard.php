@@ -117,6 +117,11 @@
                             <th>Course</th>
                             <th>Address</th>
                             <th>Actions</th>
+                            <th>Gender</th>
+                            <th>Year Level</th>
+                            <th>Section</th>
+                            <th>Birthday</th>
+                            <th>Phone</th>
                         </tr>
                     </thead>
 
@@ -131,23 +136,41 @@
                             <td><?= $row['email'] ?></td>
                             <td><?= $row['course'] ?></td>
                             <td><?= $row['address'] ?></td>
-                            <td>
-                                <a href="edit.php?id=<?= $row['id'] ?>" class="btn btn-warning btn-sm">
-                                    <i class="fa-solid fa-pen-to-square"></i> Edit
-                                </a>
+                           <td><?= $row['gender'] ?></td>
+                           <td><?= $row['year_level'] ?></td>
+                           <td><?= $row['section'] ?></td>
+                           <td><?= $row['birthday'] ?></td>
+                           <td><?= $row['phone'] ?></td>
+                                <a href="edit.php?id=<?= $row['id'] ?>" 
+   class="btn btn-warning btn-sm"
+   title="Edit">
+    <i class="fa-solid fa-pen-to-square"></i>
+</a>
 
-                                <a href="delete.php?id=<?= $row['id'] ?>" class="btn btn-danger btn-sm">
-                                    <i class="fa-solid fa-trash"></i> Delete
-                                </a>
+<a href="delete.php?id=<?= $row['id'] ?>" 
+   class="btn btn-danger btn-sm"
+   title="Delete"
+   onclick="return confirm('Are you sure?')">
+    <i class="fa-solid fa-trash"></i>
+</a>
                             </td>
+                            
                         </tr>
                     <?php endwhile; ?>
                     </tbody>
                 </table>
-
-                </div>
-
-            </div>
+              </div>
+               </div>
+            <div class="mt-3 text-end">
+    <div class="mt-2 text-end">
+   <div class="mt-2 text-end">
+    <a href="delete_all.php"
+       class="text-danger small"
+       onclick="return confirm('Delete all students?')">
+ Delete All
+    </a>
+</div>
+</div>
         </div>
 
     </div>
