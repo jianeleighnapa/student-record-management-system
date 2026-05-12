@@ -2,30 +2,31 @@
 session_start();
 include 'db.php';
 
-// If already logged in, redirect
-if (isset($_SESSION['teacher'])) {
-    header("Location: dashboard.php");
+if (!isset($_SESSION['teacher'])) {
+    header("Location: log_in.php");
     exit();
 }
 
+$message = "";
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    $username = $_POST['username'];
-    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    $name = $_POST['name'];
+    $age = $_POST['age'];
+    $email = $_POST['email'];
+    $course = $_POST['course'];
+    $address = $_POST['address'];
 
-    // check if user exists (optional but recommended)
-    $check = $pdo->prepare("SELECT * FROM teachers WHERE username = ?");
-    $check->execute([$username]);
+    $stmt = $pdo->prepare("
+        INSERT INTO students (name, age, email, course, address)
+        VALUES (?, ?, ?, ?, ?)
+    ");
 
-    if ($check->rowCount() > 0) {
-        $error = "Username already exists!";
-    } else {
-
-        $stmt = $pdo->prepare("INSERT INTO teachers (username, password) VALUES (?, ?)");
-        $stmt->execute([$username, $password]);
-
-        header("Location: login.php");
+    if ($stmt->execute([$name, $age, $email, $course, $address])) {
+        header("Location: dashboard.php");
         exit();
+    } else {
+        $message = "Failed to add student!";
     }
 }
 ?>
@@ -33,18 +34,64 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Register</title>
+    <title>Add Student</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <style>
-        body {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+        body{
+            margin:0;
+            font-family:'Segoe UI',sans-serif;
+            background: linear-gradient(135deg, #141e30, #243b55);
+            height:100vh;
         }
 
-        .card {
-            border-radius: 15px;
+        .card-box{
+            width:460px;
+            padding:30px;
+            border-radius:18px;
+            background: rgba(255,255,255,0.12);
+            backdrop-filter: blur(15px);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+            color:white;
+        }
+
+        .title-icon{
+            font-size:55px;
+            color:#00c6ff;
+        }
+
+        .form-control{
+            border:none;
+            border-radius:10px;
+        }
+
+        .form-control:focus{
+            box-shadow:0 0 10px #00c6ff;
+        }
+
+        .input-group-text{
+            background: rgba(255,255,255,0.85);
+            border:none;
+        }
+
+        .btn-save{
+            background: linear-gradient(90deg,#00c6ff,#0072ff);
+            border:none;
+            color:white;
+            font-weight:600;
+            border-radius:10px;
+            transition:0.3s;
+        }
+
+        .btn-save:hover{
+            transform:scale(1.03);
+            background: linear-gradient(90deg,#ff416c,#ff4b2b);
+        }
+
+        .btn-back{
+            border-radius:10px;
         }
     </style>
 </head>
@@ -53,36 +100,73 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <div class="container d-flex justify-content-center align-items-center vh-100">
 
-    <div class="card shadow p-4" style="width: 400px;">
+    <div class="card-box">
 
-        <h3 class="text-center mb-3">
-            <i class="fa-solid fa-user-plus"></i> Register
-        </h3>
+        <!-- HEADER -->
+        <div class="text-center mb-4">
+            <div class="title-icon">
+                <i class="fa-solid fa-user-graduate"></i>
+            </div>
+            <h3 class="fw-bold">Add Student</h3>
+            <p style="opacity:0.8;">Fill student information below</p>
+        </div>
 
-        <?php if (isset($error)): ?>
+        <?php if($message): ?>
             <div class="alert alert-danger text-center">
-                <?= $error ?>
+                <?= $message ?>
             </div>
         <?php endif; ?>
 
+        <!-- FORM -->
         <form method="POST">
 
-            <div class="mb-3">
-                <input type="text" name="username" class="form-control"
-                       placeholder="Username" required>
+            <!-- NAME -->
+            <div class="input-group mb-3">
+                <span class="input-group-text">
+                    <i class="fa-solid fa-user text-primary"></i>
+                </span>
+                <input type="text" name="name" class="form-control" placeholder="Full Name" required>
             </div>
 
-            <div class="mb-3">
-                <input type="password" name="password" class="form-control"
-                       placeholder="Password" required>
+            <!-- AGE -->
+            <div class="input-group mb-3">
+                <span class="input-group-text">
+                    <i class="fa-solid fa-calendar text-primary"></i>
+                </span>
+                <input type="number" name="age" class="form-control" placeholder="Age" required>
             </div>
 
-            <button type="submit" class="btn btn-success w-100">
-                <i class="fa-solid fa-floppy-disk"></i> Register
+            <!-- EMAIL -->
+            <div class="input-group mb-3">
+                <span class="input-group-text">
+                    <i class="fa-solid fa-envelope text-primary"></i>
+                </span>
+                <input type="email" name="email" class="form-control" placeholder="Email" required>
+            </div>
+
+            <!-- COURSE -->
+            <div class="input-group mb-3">
+                <span class="input-group-text">
+                    <i class="fa-solid fa-book text-primary"></i>
+                </span>
+                <input type="text" name="course" class="form-control" placeholder="Course" required>
+            </div>
+
+            <!-- ADDRESS -->
+            <div class="input-group mb-3">
+                <span class="input-group-text">
+                    <i class="fa-solid fa-location-dot text-primary"></i>
+                </span>
+                <textarea name="address" class="form-control" placeholder="Address" required></textarea>
+            </div>
+
+            <!-- BUTTONS -->
+            <button class="btn btn-save w-100 py-2">
+                <i class="fa-solid fa-floppy-disk"></i> Save Student
             </button>
 
-            <a href="log_in.php" class="btn btn-secondary w-100 mt-2">
-                <i class="fa-solid fa-arrow-left"></i> Back to Login
+            <a href="dashboard.php" class="btn btn-light w-100 mt-2 btn-back">
+                <i class="fa-solid fa-arrow-left"></i> Back
             </a>
 
         </form>

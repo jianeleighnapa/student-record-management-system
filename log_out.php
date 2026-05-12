@@ -1,19 +1,8 @@
 <?php
 session_start();
 
-// destroy session
+// clear session
 $_SESSION = [];
-
-if (ini_get("session.use_cookies")) {
-    $params = session_get_cookie_params();
-    setcookie(session_name(), '', time() - 42000,
-        $params["path"],
-        $params["domain"],
-        $params["secure"],
-        $params["httponly"]
-    );
-}
-
 session_destroy();
 ?>
 
@@ -73,7 +62,7 @@ session_destroy();
     <h3>You have been logged out</h3>
     <p class="text-muted">Thank you for using the system</p>
 
-    <a href="login.php" class="btn btn-primary btn-custom">
+    <a href="log_in.php" class="btn btn-primary btn-custom">
         <i class="fa-solid fa-right-to-bracket"></i> Login Again
     </a>
 

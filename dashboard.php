@@ -3,7 +3,7 @@
     include 'db.php';
 
     if (!isset($_SESSION['teacher'])) {
-        header("Location: login.php");
+        header("Location: log_out.php");
         exit();
     }
 
